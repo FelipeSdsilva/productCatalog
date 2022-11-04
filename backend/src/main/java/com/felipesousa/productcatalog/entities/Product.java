@@ -25,6 +25,7 @@ public class Product implements Serializable {
 	private String barcode;
 	private Integer qtdInStok;
 	private Double price;
+	
 	private LocalDate dateValidity;
 
 	

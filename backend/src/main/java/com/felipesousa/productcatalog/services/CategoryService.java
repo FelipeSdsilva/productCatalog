@@ -4,13 +4,18 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.persistence.EntityNotFoundException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.felipesousa.productcatalog.dto.CategoryDTO;
 import com.felipesousa.productcatalog.entities.Category;
 import com.felipesousa.productcatalog.repositories.CategoryRepository;
+import com.felipesousa.productcatalog.services.exceptions.DatabaseException;
 import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundExcepition;
 
 @Service
@@ -25,11 +30,10 @@ public class CategoryService {
 		return listCategory.stream().map((x) -> new CategoryDTO(x)).collect(Collectors.toList());
 	}
 
-	
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
-		Optional <Category> obj = repository.findById(id);
-		Category entity = obj.orElseThrow(() -> new ResourceNotFoundExcepition("Id not foud"));
+		Optional<Category> obj = repository.findById(id);
+		Category entity = obj.orElseThrow(() -> new ResourceNotFoundExcepition("Entity not found "));
 		return new CategoryDTO(entity);
 	}
 
@@ -43,15 +47,25 @@ public class CategoryService {
 
 	@Transactional
 	public CategoryDTO update(Long id, CategoryDTO dto) {
-		Category entity = repository.getReferenceById(id);
-		entity.setName(dto.getName());
-		entity = repository.save(entity);
-		return new CategoryDTO(entity);
+		try {
+			Category entity = repository.getReferenceById(id);
+			entity.setName(dto.getName());
+			entity = repository.save(entity);
+			return new CategoryDTO(entity);
+		} catch (EntityNotFoundException e) {
+			throw new ResourceNotFoundExcepition("Id not foud " + id);
+		}
 	}
 
 	public void delete(Long id) {
-		
-		
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundExcepition("Id not foud " + id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DatabaseException("Integrity Violation");
+		}
+
 	}
-	
+
 }

@@ -2,6 +2,8 @@ package com.felipesousa.productcatalog.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.felipesousa.productcatalog.entities.Product;
 
@@ -14,6 +16,8 @@ public class ProductDTO implements Serializable {
 	private Integer qtdInStok;
 	private Double price;
 	private LocalDate dateValidity;
+	
+	private Set<CategoryDTO> categories = new HashSet<>();
 
 	public ProductDTO() {
 	}
@@ -82,5 +86,9 @@ public class ProductDTO implements Serializable {
 
 	public void setDateValidity(LocalDate dateValidity) {
 		this.dateValidity = dateValidity;
+	}
+
+	public Set<CategoryDTO> getCategories() {
+		return categories;
 	}
 }
