@@ -5,6 +5,8 @@ import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity(name = "tb_address")
 public class Address implements Serializable {
@@ -14,19 +16,29 @@ public class Address implements Serializable {
 	private String district;
 	private String city;
 	private String state;
-	
+
 	@Id
 	private String cep;
+
+	@ManyToOne
+	@JoinColumn(name = "provider_id")
+	private Provider provider;
 
 	public Address() {
 	}
 
-	public Address(String streetName, String district, String city, String state, String cep) {
+	public Address(String streetName, String district, String city, String state, String cep ) {
 		this.streetName = streetName;
 		this.district = district;
 		this.city = city;
 		this.state = state;
 		this.cep = cep;
+		
+	}
+
+	public Address(String streetName, String district, String city, String state, String cep, Provider provider) {
+		this(streetName,district,city,state,cep);
+		this.provider = provider;
 	}
 
 	public String getStreetName() {
@@ -74,6 +86,11 @@ public class Address implements Serializable {
 		return Objects.hash(cep);
 	}
 
+	/*
+	 * public Provider getProvider() { return provider; }
+	 * 
+	 * public void setProvider(Provider provider) { this.provider = provider; }
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)

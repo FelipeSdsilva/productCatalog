@@ -1,12 +1,15 @@
 package com.felipesousa.productcatalog.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity(name = "tb_provider")
 public class Provider implements Serializable {
@@ -24,6 +27,9 @@ public class Provider implements Serializable {
 	private String corpContactName;
 	private Integer numberOfLocalizate;
 	private String complements;
+
+	@OneToMany(mappedBy = "provider")
+	private List<Address> adresses = new ArrayList<>();
 
 	public Provider() {
 	}
@@ -121,6 +127,10 @@ public class Provider implements Serializable {
 	public void setComplements(String complements) {
 		this.complements = complements;
 	}
+
+	//public List<Address> getAdresses() {
+	//	return adresses;
+	//}
 
 	@Override
 	public int hashCode() {
