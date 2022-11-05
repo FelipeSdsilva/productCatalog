@@ -8,4 +8,5 @@ import com.felipesousa.productcatalog.entities.Address;
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
+	public Address findByCep(String cep);
 }

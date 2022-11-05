@@ -19,6 +19,8 @@ public class ProductDTO implements Serializable {
 	
 	private Set<CategoryDTO> categories = new HashSet<>();
 
+	private Set<ProviderDTO> providers = new HashSet<>();
+	
 	public ProductDTO() {
 	}
 
@@ -90,5 +92,9 @@ public class ProductDTO implements Serializable {
 
 	public Set<CategoryDTO> getCategories() {
 		return categories;
+	}
+
+	public Set<ProviderDTO> getProviders() {
+		return providers;
 	}
 }

@@ -2,13 +2,16 @@ package com.felipesousa.productcatalog.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
 @Entity(name = "tb_provider")
@@ -31,6 +34,9 @@ public class Provider implements Serializable {
 	@OneToMany(mappedBy = "provider")
 	private List<Address> adresses = new ArrayList<>();
 
+	@ManyToMany(mappedBy = "providers")
+	private Set<Product> products = new HashSet<>();
+	
 	public Provider() {
 	}
 
@@ -128,9 +134,13 @@ public class Provider implements Serializable {
 		this.complements = complements;
 	}
 
-	//public List<Address> getAdresses() {
-	//	return adresses;
-	//}
+	public List<Address> getAdresses() {
+		return adresses;
+	}
+
+	public Set<Product> getProducts() {
+		return products;
+	}
 
 	@Override
 	public int hashCode() {

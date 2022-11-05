@@ -34,7 +34,7 @@ public class ResourceNotFoundHandler {
 	public ResponseEntity<StandardError> integrityDataBase(DatabaseException e, HttpServletRequest request) {
 
 		StandardError err = new StandardError();
-		HttpStatus status = HttpStatus.NOT_FOUND;
+		HttpStatus status = HttpStatus.BAD_REQUEST;
 
 		err.setTimeStamp(Instant.now());
 		err.setStatus(status.value());

@@ -1,7 +1,12 @@
 package com.felipesousa.productcatalog.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
+import com.felipesousa.productcatalog.entities.Address;
 import com.felipesousa.productcatalog.entities.Provider;
 
 public class ProviderDTO implements Serializable {
@@ -17,6 +22,10 @@ public class ProviderDTO implements Serializable {
 	private String corpContactName;
 	private Integer numberOfLocalizate;
 	private String complements;
+
+	private List<AddressDTO> adresses = new ArrayList<>();
+
+	private Set<ProductDTO> products = new HashSet<>();
 
 	public ProviderDTO() {
 	}
@@ -46,6 +55,11 @@ public class ProviderDTO implements Serializable {
 		corpContactName = entity.getCorpContactName();
 		numberOfLocalizate = entity.getNumberOfLocalizate();
 		complements = entity.getComplements();
+	}
+
+	public ProviderDTO(Provider entity, List<Address> adresses) {
+		this(entity);
+		adresses.forEach(add -> this.adresses.add(new AddressDTO(add)));
 	}
 
 	public Long getId() {
@@ -126,6 +140,14 @@ public class ProviderDTO implements Serializable {
 
 	public void setComplements(String complements) {
 		this.complements = complements;
+	}
+
+	public List<AddressDTO> getAdresses() {
+		return adresses;
+	}
+
+	public Set<ProductDTO> getProducts() {
+		return products;
 	}
 
 }

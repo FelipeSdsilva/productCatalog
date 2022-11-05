@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -12,12 +14,13 @@ import javax.persistence.ManyToOne;
 public class Address implements Serializable {
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private String streetName;
 	private String district;
 	private String city;
 	private String state;
-
-	@Id
 	private String cep;
 
 	@ManyToOne
@@ -27,18 +30,28 @@ public class Address implements Serializable {
 	public Address() {
 	}
 
-	public Address(String streetName, String district, String city, String state, String cep ) {
+	public Address(Long id, String streetName, String district, String city, String state, String cep) {
+		this.id = id;
 		this.streetName = streetName;
 		this.district = district;
 		this.city = city;
 		this.state = state;
 		this.cep = cep;
-		
+
 	}
 
-	public Address(String streetName, String district, String city, String state, String cep, Provider provider) {
-		this(streetName,district,city,state,cep);
+	public Address(Long id, String streetName, String district, String city, String state, String cep,
+			Provider provider) {
+		this(id, streetName, district, city, state, cep);
 		this.provider = provider;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public String getStreetName() {
@@ -86,11 +99,14 @@ public class Address implements Serializable {
 		return Objects.hash(cep);
 	}
 
-	/*
-	 * public Provider getProvider() { return provider; }
-	 * 
-	 * public void setProvider(Provider provider) { this.provider = provider; }
-	 */
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -102,5 +118,4 @@ public class Address implements Serializable {
 		Address other = (Address) obj;
 		return Objects.equals(cep, other.cep);
 	}
-
 }
