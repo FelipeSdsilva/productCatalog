@@ -1,8 +1,6 @@
 package com.felipesousa.productcatalog.services;
 
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,35 +20,22 @@ public class ProviderService {
 	@Transactional(readOnly = true)
 	public List<ProviderDTO> findAll() {
 		List<Provider> listProvider = repository.findAll();
-		return listProvider.stream().map((x) -> new ProviderDTO(x)).collect(Collectors.toList());
+		return listProvider.stream().map((x) -> new ProviderDTO(x)).toList();
 
 	}
 
 	@Transactional(readOnly = true)
 	public ProviderDTO findById(Long id) {
-		Optional<Provider> obj = repository.findById(id);
-		Provider entity = obj.orElseThrow(() -> new ResourceNotFoundExcepition("Entity not found "));
-		return new ProviderDTO(entity);
+		Provider obj = repository.findById(id).orElseThrow(() -> new ResourceNotFoundExcepition("Entity not found "));
+		return new ProviderDTO(obj);
 	}
 
 	public ProviderDTO insertNewProvi(ProviderDTO proviDto) {
 		Provider entity = new Provider();
-		convertEntityToDto(entity, proviDto);
+		entity.convertEntityToDto(entity, proviDto);
 		entity = repository.save(entity);
 		return new ProviderDTO(entity);
 	}
 
-	private void convertEntityToDto(Provider entity, ProviderDTO proviDto) {
-
-		entity.setCorpName(proviDto.getCorpName());
-		entity.setFantName(proviDto.getFantName());
-		entity.setSocialRegister(proviDto.getSocialRegister());
-		entity.setCnpj(proviDto.getCnpj());
-		entity.setEmail(proviDto.getEmail());
-		entity.setTell(proviDto.getTell());
-		entity.setCorpContactName(proviDto.getCorpContactName());
-		entity.setNumberOfLocalizate(proviDto.getNumberOfLocalizate());
-		entity.setComplements(proviDto.getComplements());
-	}
 
 }

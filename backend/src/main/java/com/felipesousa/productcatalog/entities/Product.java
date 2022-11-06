@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,26 +26,18 @@ public class Product implements Serializable {
 	private String barcode;
 	private Integer qtdInStok;
 	private Double price;
-	
+
+	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private LocalDate dateValidity;
 
-	
 	@ManyToMany
-	@JoinTable(
-			name = "tb_product_category",
-			joinColumns = @JoinColumn(name = "product_id"),
-			inverseJoinColumns = @JoinColumn(name = "category_id")
-			)
+	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>();
-	
+
 	@ManyToMany
-	@JoinTable(
-			name = "tb_product_provider",
-			joinColumns = @JoinColumn(name = "product_id"),
-			inverseJoinColumns = @JoinColumn(name = "provider_id")
-			)
+	@JoinTable(name = "tb_product_provider", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "provider_id"))
 	private Set<Provider> providers = new HashSet<>();
-	
+
 	public Product() {
 	}
 
@@ -130,4 +123,5 @@ public class Product implements Serializable {
 		Product other = (Product) obj;
 		return Objects.equals(id, other.id);
 	}
+
 }

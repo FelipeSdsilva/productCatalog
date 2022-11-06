@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import com.felipesousa.productcatalog.dto.ProviderDTO;
+
 @Entity(name = "tb_provider")
 public class Provider implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -23,7 +25,7 @@ public class Provider implements Serializable {
 	private Long id;
 	private String corpName;
 	private String fantName;
-	private String SocialRegister;
+	private String socialRegister;
 	private String cnpj;
 	private String email;
 	private Integer tell;
@@ -45,7 +47,7 @@ public class Provider implements Serializable {
 		this.id = id;
 		this.corpName = corpName;
 		this.fantName = fantName;
-		this.SocialRegister = socialRegister;
+		this.socialRegister = socialRegister;
 		this.cnpj = cnpj;
 		this.email = email;
 		this.tell = tell;
@@ -79,11 +81,11 @@ public class Provider implements Serializable {
 	}
 
 	public String getSocialRegister() {
-		return SocialRegister;
+		return socialRegister;
 	}
 
 	public void setSocialRegister(String socialRegister) {
-		SocialRegister = socialRegister;
+		this.socialRegister = socialRegister;
 	}
 
 	public String getCnpj() {
@@ -157,6 +159,19 @@ public class Provider implements Serializable {
 			return false;
 		Provider other = (Provider) obj;
 		return Objects.equals(id, other.id);
+	}
+	
+	public void convertEntityToDto(Provider entity, ProviderDTO proviDto) {
+
+		entity.setCorpName(proviDto.getCorpName());
+		entity.setFantName(proviDto.getFantName());
+		entity.setSocialRegister(proviDto.getSocialRegister());
+		entity.setCnpj(proviDto.getCnpj());
+		entity.setEmail(proviDto.getEmail());
+		entity.setTell(proviDto.getTell());
+		entity.setCorpContactName(proviDto.getCorpContactName());
+		entity.setNumberOfLocalizate(proviDto.getNumberOfLocalizate());
+		entity.setComplements(proviDto.getComplements());
 	}
 
 }

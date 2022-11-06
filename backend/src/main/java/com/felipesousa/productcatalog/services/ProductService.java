@@ -33,7 +33,7 @@ public class ProductService {
 
 	@Autowired
 	private CategoryRepository categoryRepository;
-	
+
 	@Autowired
 	private ProviderRepository providerRepository;
 
@@ -45,9 +45,7 @@ public class ProductService {
 
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
-
-		Optional<Product> obj = repository.findById(id);
-		Product entity = obj.orElseThrow(() -> new ResourceNotFoundExcepition("Entity not Found "));
+		Product entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundExcepition("Entity not Found "));
 		return new ProductDTO(entity);
 	}
 
@@ -88,12 +86,15 @@ public class ProductService {
 	public void addStock(Long id, Integer qtd) {
 
 		Optional<Product> entity = repository.findById(id);
-		if (entity.isPresent()) {
-			Integer qtdAtt = entity.get().getQtdInStok();
-			entity.get().setQtdInStok(qtdAtt += qtd);
+		try {
+			if (entity.isPresent()) {
+				Integer qtdAtt = entity.get().getQtdInStok();
+				entity.get().setQtdInStok(qtdAtt += qtd);
 
+			}
+		} catch (EntityNotFoundException e) {
+			throw new ResourceAccessException("Id not found" + id);
 		}
-
 	}
 
 	@Transactional
@@ -127,7 +128,7 @@ public class ProductService {
 			Category category = categoryRepository.getReferenceById(dto.getId());
 			prodEntity.getCategories().add(category);
 		}
-		
+
 		prodEntity.getProviders().clear();
 		for (ProviderDTO proviDto : prodDto.getProviders()) {
 			Provider provider = providerRepository.getReferenceById(proviDto.getId());
@@ -135,4 +136,5 @@ public class ProductService {
 		}
 
 	}
+
 }
