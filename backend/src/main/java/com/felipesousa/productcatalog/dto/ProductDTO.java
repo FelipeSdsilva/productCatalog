@@ -5,7 +5,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.felipesousa.productcatalog.entities.Category;
 import com.felipesousa.productcatalog.entities.Product;
+import com.felipesousa.productcatalog.entities.Provider;
 
 public class ProductDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -16,11 +18,11 @@ public class ProductDTO implements Serializable {
 	private Integer qtdInStok;
 	private Double price;
 	private LocalDate dateValidity;
-	
+
 	private Set<CategoryDTO> categories = new HashSet<>();
 
 	private Set<ProviderDTO> providers = new HashSet<>();
-	
+
 	public ProductDTO() {
 	}
 
@@ -40,6 +42,13 @@ public class ProductDTO implements Serializable {
 		qtdInStok = entity.getQtdInStok();
 		price = entity.getPrice();
 		dateValidity = entity.getDateValidity();
+	}
+
+	public ProductDTO(Product entity, Set<Category> categories, Set<Provider> providers) {
+		this(entity);
+		categories.forEach(cate -> this.categories.add(new CategoryDTO(cate)));
+		providers.forEach(provi -> this.providers.add(new ProviderDTO(provi)));
+
 	}
 
 	public Long getId() {

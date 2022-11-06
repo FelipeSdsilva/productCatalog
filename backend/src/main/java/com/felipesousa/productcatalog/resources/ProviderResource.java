@@ -23,4 +23,6 @@ public class ProviderResource {
 		List<ProviderDTO> provList = service.findAll();
 		return ResponseEntity.ok().body(provList);
 	}
+	
+	
 }
