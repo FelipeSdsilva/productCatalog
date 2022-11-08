@@ -13,7 +13,7 @@ import com.felipesousa.productcatalog.dto.AddressDTO;
 import com.felipesousa.productcatalog.entities.Address;
 import com.felipesousa.productcatalog.entities.Provider;
 import com.felipesousa.productcatalog.repositories.AddressRepository;
-import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundExcepition;
+import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class AddressService {
@@ -33,7 +33,7 @@ public class AddressService {
 			Address entity = repository.findByCep(cep);
 			return new AddressDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundExcepition("CEP not found" + cep);
+			throw new ResourceNotFoundException("CEP not found" + cep);
 		}
 	}
 

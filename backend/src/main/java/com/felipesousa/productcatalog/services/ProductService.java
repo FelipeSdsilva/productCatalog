@@ -23,7 +23,7 @@ import com.felipesousa.productcatalog.repositories.CategoryRepository;
 import com.felipesousa.productcatalog.repositories.ProductRepository;
 import com.felipesousa.productcatalog.repositories.ProviderRepository;
 import com.felipesousa.productcatalog.services.exceptions.DatabaseException;
-import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundExcepition;
+import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductService {
@@ -45,7 +45,7 @@ public class ProductService {
 
 	@Transactional(readOnly = true)
 	public ProductDTO findById(Long id) {
-		Product entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundExcepition("Entity not Found "));
+		Product entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Entity not Found "));
 		return new ProductDTO(entity);
 	}
 
@@ -67,7 +67,7 @@ public class ProductService {
 			entity = repository.save(entity);
 			return new ProductDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundExcepition("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
 		}
 
 	}
@@ -76,7 +76,7 @@ public class ProductService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundExcepition("Id not found " + id);
+			throw new ResourceNotFoundException("Id not found " + id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity violation");
 		}

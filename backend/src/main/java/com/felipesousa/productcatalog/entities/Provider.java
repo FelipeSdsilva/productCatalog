@@ -13,10 +13,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 import com.felipesousa.productcatalog.dto.ProviderDTO;
 
-@Entity(name = "tb_provider")
+@Entity
+@Table(name = "tb_provider")
 public class Provider implements Serializable {
 	private static final long serialVersionUID = 1L;
 

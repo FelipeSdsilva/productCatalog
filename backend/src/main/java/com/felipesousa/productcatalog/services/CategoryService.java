@@ -16,7 +16,7 @@ import com.felipesousa.productcatalog.dto.CategoryDTO;
 import com.felipesousa.productcatalog.entities.Category;
 import com.felipesousa.productcatalog.repositories.CategoryRepository;
 import com.felipesousa.productcatalog.services.exceptions.DatabaseException;
-import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundExcepition;
+import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class CategoryService {
@@ -33,7 +33,7 @@ public class CategoryService {
 	@Transactional(readOnly = true)
 	public CategoryDTO findById(Long id) {
 		Optional<Category> obj = repository.findById(id);
-		Category entity = obj.orElseThrow(() -> new ResourceNotFoundExcepition("Entity not found "));
+		Category entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found "));
 		return new CategoryDTO(entity);
 	}
 
@@ -53,7 +53,7 @@ public class CategoryService {
 			entity = repository.save(entity);
 			return new CategoryDTO(entity);
 		} catch (EntityNotFoundException e) {
-			throw new ResourceNotFoundExcepition("Id not foud " + id);
+			throw new ResourceNotFoundException("Id not foud " + id);
 		}
 	}
 
@@ -61,7 +61,7 @@ public class CategoryService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			throw new ResourceNotFoundExcepition("Id not foud " + id);
+			throw new ResourceNotFoundException("Id not foud " + id);
 		} catch (DataIntegrityViolationException e) {
 			throw new DatabaseException("Integrity Violation");
 		}

@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.felipesousa.productcatalog.dto.ProviderDTO;
 import com.felipesousa.productcatalog.entities.Provider;
 import com.felipesousa.productcatalog.repositories.ProviderRepository;
-import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundExcepition;
+import com.felipesousa.productcatalog.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProviderService {
@@ -26,7 +26,7 @@ public class ProviderService {
 
 	@Transactional(readOnly = true)
 	public ProviderDTO findById(Long id) {
-		Provider obj = repository.findById(id).orElseThrow(() -> new ResourceNotFoundExcepition("Entity not found "));
+		Provider obj = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Entity not found "));
 		return new ProviderDTO(obj);
 	}
 
